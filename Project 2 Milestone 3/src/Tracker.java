@@ -26,7 +26,7 @@ public class Tracker
   public Tracker(DifferentialPilot thePilot, LightSensor leftEye , LightSensor  rightEye)
   {
     pilot = thePilot;
-    pilot.setTravelSpeed(20);
+    pilot.setTravelSpeed(12);
     pilot.setRotateSpeed(180);
     pilot.setAcceleration(3000);
     this.leftEye = leftEye;

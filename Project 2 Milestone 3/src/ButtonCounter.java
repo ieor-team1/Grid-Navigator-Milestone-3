@@ -19,7 +19,6 @@ public class ButtonCounter
    {
       LCD.clear();
       System.out.println(msg);
-      LCD.drawString(msg, 0, 0);
       boolean counting = true;
       while (counting)  // sometime, make this false to exit the loop
       {
@@ -69,6 +68,10 @@ public class ButtonCounter
 
 
       }
+   }
+   
+   public Point get(){
+	   return point;
    }
    
    public void print(){

@@ -13,33 +13,107 @@ public class GridNavigator {
     static LightSensor leftEye = new LightSensor(SensorPort.S4);
     static LightSensor rightEye = new LightSensor(SensorPort.S1);
 	DifferentialPilot pilot = new DifferentialPilot(wheelDiameter, trackWidth, Motor.A, Motor.C);
-	Tracker t1 = new Tracker (pilot, leftEye, rightEye);
+	T2 t1 = new T2 (pilot, leftEye, rightEye);
 	
 	Point position = new Point(0,0);
 	Point error = new Point();
-	public void goTo(Point() point){
-		error = point - position;
-	}
+	int i;
+	int direction = 1;
+	int ndirection = 0;
 	
-	public void xDiff(int x){
-		int xerror = error.x - x;
-		if(xerror<0){
-			t1.turn(180);
-		}
+	public void calibrate(){
+		t1.calibrate();
+	}
+
+	public void goTo(Point point){
+		System.out.println("current: " + position.x + position.y);
+		System.out.println("go: " + point.x + point.y);
+		double xerror = point.x - position.x;
+		int yerror = point.y - position.y;
+		
+		if(xerror!=0){
+			if (direction == 2){
+				if (xerror > 0){
+					t1.turn(1);
+					direction = 1;
+				}
+				if (xerror < 0) {
+					t1.turn(-1);
+					direction = 3;
+					xerror = -xerror;
+				}
+			}
+			else if (direction == 4){
+				if (xerror > 0){
+					t1.turn(-1);
+					direction = 1;
+				}
+				if (xerror < 0) {
+					t1.turn(1);
+					direction = 3;
+					xerror = -xerror;
+				}
+			}
+			else if (direction == 3 &&xerror > 0) {
+				t1.turn(2);
+				direction = 1;
+				
+			}
+			else if (direction == 1 && xerror < 0 ) {
+				t1.turn(2);
+				direction = 3;
+				xerror = -xerror;
+			}
+
 		for(int i =0; i< xerror; i++){
+			
 			t1.trackLine();
 		}
-		t1.turn(1); //Get ready for moving in the y direction
-	}
-	
-	public void yDiff(int y){
-		int yerror = error.y - y;
-		if(yerror<0){
-			t1.turn(-2);
+		}
+		//Get ready to move in the y direction
+
+		if(yerror!=0){
+		if (direction == 1) {
+			if (yerror > 0) {
+			t1.turn(-1);//turn left
+			direction = 2 ;
+			}
+			if (yerror <0) {
+				t1.turn(1);
+				direction = 4;
+			}
+		}
+		else if(direction == 3) {
+			if (yerror > 0) {
+				t1.turn(1);//turn right
+				direction = 2 ;
+			}
+			if (yerror <0) {
+				t1.turn(-1);
+				direction = 4;
+				yerror = -yerror;
+			}
+		}
+		else if (direction == 4 && yerror > 0) {
+			t1.turn(2);
+			direction = 2;
+		}
+		else if (direction == 2 && yerror < 0 ) {
+			t1.turn(2);
+			direction = 4;
+			yerror = -yerror;
 		}
 		for(int i =0; i< yerror; i++){
 			t1.trackLine();
 		}
-		t1.turn(-1);
+		
+		
+		}
+		position.x=point.x;
+		position.y=point.y;
+		System.out.println("Direction is: "+ direction);
 	}
+	
+	
+
 }
