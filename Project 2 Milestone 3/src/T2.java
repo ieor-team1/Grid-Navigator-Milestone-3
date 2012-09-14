@@ -78,7 +78,6 @@ public class T2
         pilot.steer(control*gain);         
         if((lval<-5 || rval<-5) && (rval2 > -8 && lval2 > -8)){//When it encounters black marker
         pilot.travel(6.5);
-        print();
       	Sound.beep();
       	return;
         }
