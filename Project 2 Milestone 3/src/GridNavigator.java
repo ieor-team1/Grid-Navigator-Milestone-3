@@ -66,7 +66,12 @@ public class GridNavigator {
 			}
 
 		for(int i =0; i< xerror; i++){
-			
+			if (direction == 1 ){
+				point.x++;
+			}
+			else if (direction == 3) {
+				point.x--;
+			}
 			t1.trackLine();
 		}
 		}
@@ -104,6 +109,12 @@ public class GridNavigator {
 			yerror = -yerror;
 		}
 		for(int i =0; i< yerror; i++){
+			if (direction == 2 ){
+				point.y++;
+			}
+			else if (direction == 4) {
+				point.y--;
+			}
 			t1.trackLine();
 		}
 		
